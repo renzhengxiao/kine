@@ -269,6 +269,7 @@ func (s *SQLLog) List(ctx context.Context, prefix, startKey string, limit, revis
 	} else {
 		// Also if this isn't a list there is no reason to pass startKey
 		startKey = ""
+		prefix += "%"
 	}
 
 	if revision == 0 {
