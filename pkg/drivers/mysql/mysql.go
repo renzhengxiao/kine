@@ -61,9 +61,9 @@ func New(ctx context.Context, dataSourceName string, tlsInfo tls.Config, connPoo
 		return nil, err
 	}
 
-	if err := createDBIfNotExist(parsedDSN); err != nil {
-		return nil, err
-	}
+	// if err := createDBIfNotExist(parsedDSN); err != nil {
+	// 	return nil, err
+	// }
 
 	dialect, err := generic.Open(ctx, "mysql", parsedDSN, connPoolConfig, "?", false, metricsRegisterer)
 	if err != nil {
