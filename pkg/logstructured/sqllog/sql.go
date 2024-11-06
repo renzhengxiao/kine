@@ -238,6 +238,8 @@ func (s *SQLLog) CurrentRevision(ctx context.Context) (int64, error) {
 func (s *SQLLog) After(ctx context.Context, prefix string, revision, limit int64) (int64, []*server.Event, error) {
 	if strings.HasSuffix(prefix, "/") {
 		prefix += "%"
+	} else {
+		prefix += "%"
 	}
 
 	rows, err := s.d.After(ctx, prefix, revision, limit)
@@ -352,7 +354,7 @@ func filter(events interface{}, checkPrefix bool, prefix string) ([]*server.Even
 	filteredEventList := make([]*server.Event, 0, len(eventList))
 
 	for _, event := range eventList {
-		if (checkPrefix && strings.HasPrefix(event.KV.Key, prefix)) || event.KV.Key == prefix {
+		if (strings.HasPrefix(event.KV.Key, prefix)) || event.KV.Key == prefix {
 			filteredEventList = append(filteredEventList, event)
 		}
 	}
@@ -488,6 +490,8 @@ func canSkipRevision(rev, skip int64, skipTime time.Time) bool {
 
 func (s *SQLLog) Count(ctx context.Context, prefix string) (int64, int64, error) {
 	if strings.HasSuffix(prefix, "/") {
+		prefix += "%"
+	} else {
 		prefix += "%"
 	}
 	return s.d.Count(ctx, prefix)
